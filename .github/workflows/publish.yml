@@ -114,11 +114,14 @@ jobs:
       # Use a custom tauri-cli branch to enable the new "truly portable" AppImage format.
       # This relies on TAURI_BUNDLER_NEW_APPIMAGE_FORMAT=true and can be removed once
       # https://github.com/tauri-apps/tauri/pull/12491 is merged and released upstream.
+      #
+      # Pin to the last revision before the quick-sharun migration, which started
+      # delegating bundling to a mutable external script downloaded at build time.
       - name: Override tauri-cli (ubuntu only)
         if: matrix.platform == 'ubuntu-24.04' || matrix.platform == 'ubuntu-24.04-arm'
         shell: bash
         run: |
-          cargo install tauri-cli --git https://github.com/tauri-apps/tauri --branch feat/truly-portable-appimage --locked --force
+          cargo install tauri-cli --git https://github.com/tauri-apps/tauri --rev b5573c1db2bb6118594b586a6aa51aeb37aa7d84 --locked --force
           echo "TAURI_BUNDLER_NEW_APPIMAGE_FORMAT=true" >> $GITHUB_ENV
 
       # TEMPORARY WORKAROUND:
@@ -301,6 +304,8 @@ jobs:
   package-appxupload:
     runs-on: windows-latest
     needs: publish-tauri
+    permissions:
+      contents: read
     steps:
       - name: Download x64 MSIX
         uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
