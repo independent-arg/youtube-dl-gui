@@ -42,6 +42,7 @@ describe('useMediaResolutionSelection', () => {
   ];
   const audioTracks: MediaTrack[] = [
     { id: 'lang:en|channels:2', label: 'English stereo', language: 'en', audioChannels: 2 },
+    { id: 'lang:es|channels:2', label: 'Spanish stereo', language: 'es', audioChannels: 2 },
   ];
 
   function createSelection(selectedOptions: DownloadOptions | undefined) {
@@ -91,6 +92,32 @@ describe('useMediaResolutionSelection', () => {
       {
         value: 'lang:en|channels:2',
         label: 'English - 2ch',
+        disabled: false,
+      },
+      {
+        value: 'lang:es|channels:2',
+        label: 'Spanish - 2ch',
+        disabled: false,
+      },
+    ]);
+  });
+
+  it('keeps all audio tracks active and enabled even when a video resolution is selected', () => {
+    const { audioTrackOptions } = createSelection({
+      trackType: TrackType.both,
+      height: 720,
+      fps: 30,
+    });
+
+    expect(audioTrackOptions.value).toEqual([
+      {
+        value: 'lang:en|channels:2',
+        label: 'English - 2ch',
+        disabled: false,
+      },
+      {
+        value: 'lang:es|channels:2',
+        label: 'Spanish - 2ch',
         disabled: false,
       },
     ]);
