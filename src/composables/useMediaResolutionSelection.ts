@@ -58,6 +58,7 @@ export function useMediaResolutionSelection(params: UseMediaResolutionSelectionP
       buildTrackResolutionLabels(toValue(params.formats), 'audioTrackIds'),
       toValue(params.unavailableTrackSuffix),
       toValue(params.availableTrackPrefix),
+      true,
     ),
   );
 
