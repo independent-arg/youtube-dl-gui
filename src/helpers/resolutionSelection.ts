@@ -97,7 +97,6 @@ export function buildTrackOptions(
     const resolutionHint = supportedResolutions.length
       ? `${availableResolutionPrefix} ${supportedResolutions.join(', ')}`
       : undefined;
-    
     const suffix = !available
       ? (resolutionHint ?? unavailableSuffix)
       : (alwaysShowResolutionHint ? resolutionHint : undefined);
