@@ -141,3 +141,36 @@ describe('useMediaResolutionSelection', () => {
     ]);
   });
 });
+
+it('shows bitrate hints on enabled audio tracks even when a video resolution is selected', () => {
+  const formatsWithAudioTrackIds: MediaFormat[] = [
+    { ...formats[0], audioTrackIds: ['lang:en|channels:2'] }, // 49k
+    { ...formats[1], audioTrackIds: ['lang:en|channels:2', 'lang:es|channels:2'] }, // 130k
+    formats[2],
+  ];
+
+  const { audioTrackOptions } = useMediaResolutionSelection({
+    formats: formatsWithAudioTrackIds,
+    audioCodecs,
+    videoCodecs: [],
+    audioTracks,
+    videoTracks: [],
+    selectedOptions: ref({ trackType: TrackType.both, height: 720, fps: 30 }),
+    approximate: false,
+    unavailableTrackSuffix: computed(() => 'Unavailable'),
+    availableTrackPrefix: computed(() => 'Available in'),
+  });
+
+  expect(audioTrackOptions.value).toEqual([
+    {
+      value: 'lang:en|channels:2',
+      label: 'English - 2ch (Available in 130kbps, 49kbps)',
+      disabled: false,
+    },
+    {
+      value: 'lang:es|channels:2',
+      label: 'Spanish - 2ch (Available in 130kbps)',
+      disabled: false,
+    },
+  ]);
+});
