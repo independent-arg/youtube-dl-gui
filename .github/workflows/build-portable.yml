@@ -26,10 +26,10 @@ jobs:
       - name: Install frontend deps
         run: npm ci
 
-      - name: Install tauri-cli
-        shell: bash
-        run: |
-          cargo install tauri-cli || true
+      - name: Install cargo-about and tauri-cli
+        uses: taiki-e/install-action@v2
+        with:
+          tool: cargo-about,tauri-cli
 
       - name: Build Windows exe (release)
         shell: bash
