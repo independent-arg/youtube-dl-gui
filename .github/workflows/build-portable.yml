@@ -50,12 +50,16 @@ jobs:
           
           $arch = if ($env:RUNNER_ARCH -eq 'ARM64') { 'arm64' } else { 'x64' }
           $zipName = "Open.Video.Downloader_$($version)_$($arch)-portable.zip"
+          
           $exe = Get-ChildItem -Path $releaseDir -Filter "*.exe" | Where-Object { $_.Name -notmatch "setup" } | Select-Object -First 1
           if (-not $exe) { Write-Error "Could not find main exe in $releaseDir" }
 
+          # Creamos la estructura completa de directorios primero
           New-Item -ItemType Directory -Path "$layoutRoot/$portableFolder" -Force | Out-Null
           New-Item -ItemType File -Path "$layoutRoot/$portableFolder/.keep" -Value "Do not remove this file or directory." -Force | Out-Null
-          Copy-Item $exe.FullName -Destination "$layoutRoot/$exe.Name" -Force
+          
+          # Corregido: Usamos $($exe.Name) para que resuelva solo el nombre del archivo
+          Copy-Item $exe.FullName -Destination "$layoutRoot/$($exe.Name)" -Force
           
           Compress-Archive -Path "$layoutRoot/*" -DestinationPath $zipName -Force
 
