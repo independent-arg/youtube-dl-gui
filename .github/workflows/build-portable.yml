@@ -34,9 +34,8 @@ jobs:
       - name: Build Windows exe (release)
         shell: bash
         run: |
-          # ajusta si tu build requiere flags distintos
           cd src-tauri
-          cargo tauri build --release
+          cargo tauri build
           cd ..
 
       - name: Bundle Portable Version (Windows only)
