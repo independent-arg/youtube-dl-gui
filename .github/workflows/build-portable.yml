@@ -33,11 +33,9 @@ jobs:
 
       - name: Build Windows exe (release)
         shell: bash
-        env:
-          TAURI_SIGNING_PRIVATE_KEY: ""
         run: |
           cd src-tauri
-          cargo tauri build
+          cargo tauri build --no-bundle
           cd ..
 
       - name: Bundle Portable Version (Windows only)
