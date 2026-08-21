@@ -79,6 +79,21 @@ npm run tauri dev
 
 For more details, see [CONTRIBUTING.md](./CONTRIBUTING.md).
 
+## Troubleshooting
+
+### Linux Wayland + NVIDIA crash on launch with npm run tauri dev (protocol error 71)
+
+If you are running the application on Linux under a Wayland compositor (such as KDE Plasma, GNOME, or Hyprland) using NVIDIA drivers, the app might crash instantly on startup with the following log:
+
+`Gdk-Message: Error 71 (Protocol error) dispatching to Wayland display.`
+
+You can bypass this by disabling explicit synchronization specifically for this app. Run the application from your terminal using:
+
+```shell
+__NV_DISABLE_EXPLICIT_SYNC=1 npm run tauri dev
+```
+https://v2.tauri.app/develop/debug/linux-graphics/
+
 ## License and disclaimer
 
 Open Video Downloader is distributed under the [AGPL-3.0 license](./LICENSE).
